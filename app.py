@@ -26,34 +26,34 @@ st.set_page_config(
 # --- Database Setup ---
 DB_NAME = "food_wastage.db"
 
-@st.cache_resource
-def init_database():
-    """
-    Initializes the SQLite database from CSV files. This function is cached
-    so it only runs once per session, preventing data reloads on every interaction.
-    """
-    if os.path.exists(DB_NAME):
-        os.remove(DB_NAME) # Start fresh each time the app launches
+# @st.cache_resource
+# def init_database():
+#     """
+#     Initializes the SQLite database from CSV files. This function is cached
+#     so it only runs once per session, preventing data reloads on every interaction.
+#     """
+#     if os.path.exists(DB_NAME):
+#         os.remove(DB_NAME) # Start fresh each time the app launches
 
-    try:
-        providers_df = pd.read_csv('providers_data.csv')
-        receivers_df = pd.read_csv('receivers_data.csv')
-        food_listings_df = pd.read_csv('food_listings_data.csv')
-        claims_df = pd.read_csv('claims_data.csv')
-    except FileNotFoundError as e:
-        st.error(f"Error: {e}. Please make sure all required CSV files are in the correct directory.")
-        st.stop()
+#     try:
+#         providers_df = pd.read_csv('providers_data.csv')
+#         receivers_df = pd.read_csv('receivers_data.csv')
+#         food_listings_df = pd.read_csv('food_listings_data.csv')
+#         claims_df = pd.read_csv('claims_data.csv')
+#     except FileNotFoundError as e:
+#         st.error(f"Error: {e}. Please make sure all required CSV files are in the correct directory.")
+#         st.stop()
 
-    conn = sqlite3.connect(DB_NAME)
-    providers_df.to_sql('providers', conn, if_exists='replace', index=False)
-    receivers_df.to_sql('receivers', conn, if_exists='replace', index=False)
-    food_listings_df.to_sql('food_listings', conn, if_exists='replace', index=False)
-    claims_df.to_sql('claims', conn, if_exists='replace', index=False)
-    conn.close()
-    print("Database initialized and populated from CSVs.")
+#     conn = sqlite3.connect(DB_NAME)
+#     providers_df.to_sql('providers', conn, if_exists='replace', index=False)
+#     receivers_df.to_sql('receivers', conn, if_exists='replace', index=False)
+#     food_listings_df.to_sql('food_listings', conn, if_exists='replace', index=False)
+#     claims_df.to_sql('claims', conn, if_exists='replace', index=False)
+#     conn.close()
+#     print("Database initialized and populated from CSVs.")
 
-# Initialize the database at the start
-init_database()
+# # Initialize the database at the start
+# init_database()
 # Create a persistent connection for the app session
 conn = sqlite3.connect(DB_NAME, check_same_thread=False)
 
